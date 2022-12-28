@@ -2,7 +2,7 @@ bl_info = {
     "name": "Batch Export",
     "author": "Steven Raybell",
     "description": "Provides batch export operators of selected objects for selected formats.",  # pylint: disable=line-too-long
-    "version": (0, 4, 1),
+    "version": (0, 4, 2),
     "blender": (3, 4, 0),
     "location": "File > Export",
     "category": "Import-Export"
@@ -21,14 +21,6 @@ PROPS = [
 ]
 
 
-def filter_selection(var):
-    types = ["MESH"]
-    if var.type in types:
-        return True
-    else:
-        return False
-
-
 def batch_export_obj(self, context):
     blend_file = context.blend_data
 
@@ -38,16 +30,16 @@ def batch_export_obj(self, context):
         return
 
     basedir = bpy.path.abspath('//objs/')
-    isExist = os.path.exists(basedir)
-    if not isExist:
+    basedir_exists = os.path.exists(basedir)
+    if not basedir_exists:
         os.makedirs(basedir)
 
     # store selection
-    obs = context.selected_objects
+    objs = context.selected_objects
 
     bpy.ops.object.select_all(action='DESELECT')
 
-    meshes = filter(filter_selection, obs)
+    meshes = filter(lambda var: var.type == "MESH", objs)
     for mesh in meshes:
         mesh.select_set(True)
 
