@@ -6,6 +6,7 @@ Copy **BatchExportSelected.py** to your Blender addons directory.
 
 Windows:      %APPDATA%\Blender Foundation\Blender\3.4\scripts\addons\  
 Linux:        /home/$user/.blender/3.4/scripts/addons/  
+
 From Blender: User Preferences > Add-ons > Install Add-on from File... > Select **BatchExportSelected.py**  
 
 ## Usage
