@@ -2,7 +2,7 @@ bl_info = {
     "name": "Batch Export",
     "author": "Steven Raybell",
     "description": "Provides batch export of selected objects in common formats",
-    "version": (0, 1),
+    "version": (0, 2),
     "blender": (3, 4, 0),
     "location": "File > Export",
     "category": "Import-Export"
