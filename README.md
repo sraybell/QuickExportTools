@@ -14,4 +14,3 @@ Batch Export panel under Item while in Object mode
 
 ## Known Limitations
 1. Requires the project to be saved
-2. Has some settings baked in, such as materials are not exported, and it currently only supports applying the viewport modifiers on export
