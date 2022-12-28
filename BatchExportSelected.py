@@ -71,7 +71,6 @@ class ExportSelectedAsObjOperator(bpy.types.Operator):
     bl_idname = "export.selected_as_obj"
     bl_label = "Batch Export Selected Objects as OBJ"
     bl_options = {'REGISTER'}
-    bl_context = '.objectmode'
 
     def execute(self, context):
         batch_export_obj(self, context)
@@ -84,6 +83,7 @@ class BatchExportPanel(bpy.types.Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = 'Item'
+    bl_context = ".objectmode"
 
     @classmethod
     def poll(self, context):
@@ -104,48 +104,6 @@ class BatchExportPanel(bpy.types.Panel):
 
 def menu_func_export(self, context):
     self.layout.operator(ExportSelectedAsObjOperator.bl_idname)
-
-
-'''class BatchExportPreferences(bpy.types.AddonPreferences):
-    bl_idname = __name__
-
-    export_nrm: bpy.props.EnumProperty(
-        items=[
-            ('nrm_y', 'Yes', '', '', 0),
-            ('no_nrm', 'No', '', '', 1)
-        ],
-        default='no_nrm'
-    )
-
-    export_uv: bpy.props.EnumProperty(
-        items=[
-            ('uv_y', 'Yes', '', '', 0),
-            ('uv_n', 'No', '', '', 1)
-        ],
-        default='uv_n'
-    )
-
-    apply_modifiers: bpy.props.EnumProperty(
-        items=[
-            ('mod_y', 'Yes', '', '', 0),
-            ('mod_n', 'No', '', '', 1)
-        ],
-        default='mod_n'
-    )
-
-    def draw(self, context):
-        layout = self.layout
-        layout.label(text='Export Normals:')
-        row = layout.row()
-        row.prop(self, 'export_nrm', expand=True)
-
-        layout.label(text='Export UVs:')
-        row = layout.row()
-        row.prop(self, 'export_uv', expand=True)
-
-        layout.label(text='Apply Modifiers:')
-        row = layout.row()
-        row.prop(self, 'apply_modifiers', expand=True)'''
 
 
 def register():
