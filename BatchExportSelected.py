@@ -1,28 +1,29 @@
 bl_info = {
     "name": "Batch Export",
     "author": "Steven Raybell",
-    "description": "Provides batch export operators of selected objects for selected formats.",
-    "version": (0, 4),
+    "description": "Provides batch export operators of selected objects for selected formats.",  # pylint: disable=line-too-long
+    "version": (0, 4, 1),
     "blender": (3, 4, 0),
     "location": "File > Export",
     "category": "Import-Export"
 }
 
 
-import os
-import bpy
+import os # pylint: disable=import-error, wrong-import-position
+import bpy # pylint: disable=import-error, wrong-import-position
 
 
 PROPS = [
-    ('export_normals_chk', bpy.props.BoolProperty(name='Export Normals', default=False)),
-    ('export_uvs_chk', bpy.props.BoolProperty(name='Export UVs', default=False)),
-    ('apply_modifiers_chk', bpy.props.BoolProperty(name='Apply Modifiers', default=True))
+    ('export_normals_chk', bpy.props.BoolProperty(name='Include Normals', default=False)),
+    ('export_uvs_chk', bpy.props.BoolProperty(name='Include UVs', default=False)),
+    ('export_materials_chk', bpy.props.BoolProperty(name='Export Materials (.mtl)', default=False, description='Exports an associated .mtl')),
+    ('apply_modifiers_chk', bpy.props.BoolProperty(name='Apply Modifiers', default=True, description='Whether to apply the viewport modifiers on export'))
 ]
 
 
 def filter_selection(var):
     types = ["MESH"]
-    if (var.type in types):
+    if var.type in types:
         return True
     else:
         return False
@@ -53,7 +54,7 @@ def batch_export_obj(self, context):
         bpy.ops.wm.obj_export(
             filepath=os.path.join(basedir, '{}.obj'.format(mesh.name)),
             export_selected_objects=True,
-            export_materials=False,
+            export_materials=context.scene.export_materials_chk,
             export_uv=context.scene.export_uvs_chk,
             export_normals=context.scene.export_normals_chk,
             apply_modifiers=context.scene.apply_modifiers_chk,
@@ -67,8 +68,8 @@ def batch_export_obj(self, context):
 
 
 class ExportSelectedAsObjOperator(bpy.types.Operator):
-    """Exports all selected objects as OBJ files"""
-    bl_idname = "export.selected_as_obj"
+    """Exports all selected objects as individual OBJ files using the object's name"""
+    bl_idname = "batchexport.exportobjs"
     bl_label = "Batch Export Selected Objects as OBJ"
     bl_options = {'REGISTER'}
 
@@ -79,14 +80,14 @@ class ExportSelectedAsObjOperator(bpy.types.Operator):
 
 class BatchExportPanel(bpy.types.Panel):
     bl_label = 'Batch Export'
-    bl_idname = 'OBJECT_PT_batchexportpanel_1'
+    bl_idname = 'BATCHEXPORT_PT_exports_1'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = 'Item'
     bl_context = ".objectmode"
 
     @classmethod
-    def poll(self, context):
+    def poll(cls, context):
         return context.object is not None
 
     def draw(self, context):
