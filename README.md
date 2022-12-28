@@ -9,7 +9,7 @@ Linux:        /home/$user/.blender/3.4/scripts/addons/
 From Blender: User Preferences > Add-ons > Install Add-on from File... > Select **BatchExportSelected.py**  
 
 ## Usage
-File > Export > Batch Export Selected Objects as OBJ
+File > Export > Batch Export Selected Objects as OBJ  
 Batch Export panel under Item while in Object mode
 
 ## Known Limitations
