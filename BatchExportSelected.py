@@ -6,7 +6,7 @@ bl_info = {
     'name': 'Batch Export',
     'author': 'Steven Raybell',
     'description': 'Provides batch export operatoions for OBJ and STL.',
-    'version': (0, 4, 5),
+    'version': (0, 4, 6),
     'blender': (3, 4, 0),
     'location': 'File > Export',
     'category': 'Import-Export'
