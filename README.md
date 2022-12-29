@@ -10,8 +10,7 @@ Linux:        /home/$user/.blender/3.4/scripts/addons/
 From Blender: User Preferences > Add-ons > Install Add-on from File... > Select **BatchExportSelected.py**  
 
 ## Usage
-File > Export > Batch Export Selected Objects as OBJ  
-Batch Export panel under Item while in Object mode
+Batch Export N-panel under the Item cateogry while in Object mode
 
-## Known Limitations
-1. Requires the project to be saved
+## Current Known Limitations
+1. Requires the project to be saved as this defines where the exports are to take place

@@ -144,10 +144,6 @@ class BatchExportPanel(bpy.types.Panel):
             text='Selected as OBJ')
 
 
-def menu_batchexport_func(self):
-    self.layout.operator(ExportSelectedAsObjOperator.bl_idname)
-
-
 def register():
     for (prop_name, prop_value) in PROPS:
         setattr(bpy.types.Scene, prop_name, prop_value)
@@ -155,14 +151,12 @@ def register():
     bpy.utils.register_class(ExportSelectedAsObjOperator)
     bpy.utils.register_class(ExportSelectedAsStlOperator)
     bpy.utils.register_class(BatchExportPanel)
-    bpy.types.TOPBAR_MT_file_export.append(menu_batchexport_func)
 
 
 def unregister():
     for (prop_name, _) in PROPS:
         delattr(bpy.types.Scene, prop_name)
 
-    bpy.types.TOPBAR_MT_file_export.remove(menu_batchexport_func)
     bpy.utils.unregister_class(ExportSelectedAsObjOperator)
     bpy.utils.unregister_class(ExportSelectedAsStlOperator)
     bpy.utils.unregister_class(BatchExportPanel)
