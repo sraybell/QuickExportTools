@@ -6,7 +6,7 @@ bl_info = {
     'name': 'Batch Export',
     'author': 'Steven Raybell',
     'description': 'Provides batch export operatoions for OBJ and STL.',
-    'version': (0, 4, 6),
+    'version': (0, 5, 0),
     'blender': (3, 4, 0),
     'location': 'File > Export',
     'category': 'Import-Export'
@@ -23,7 +23,9 @@ PROPS = [
     ('export_materials_chk', bpy.props.BoolProperty(name='Export Materials (OBJ)',
      default=False, description='Exports an associated .mtl')),
     ('apply_modifiers_chk', bpy.props.BoolProperty(name='Apply Modifiers (OBJ, STL)',
-     default=True, description='Whether to apply the viewport modifiers on export'))
+     default=True, description='Whether to apply the viewport modifiers on export')),
+    ('export_dir', bpy.props.StringProperty(name='',
+     default='exports', description='The sub directory to write the files to.'))
 ]
 
 
@@ -41,7 +43,7 @@ def check_export(self, context, output_dir):
 
 
 def batch_export_stl(self, context):
-    (result, basedir) = check_export(self, context, 'stls')
+    (result, basedir) = check_export(self, context, context.scene.export_dir)
     if result is False:
         return
 
@@ -61,7 +63,7 @@ def batch_export_stl(self, context):
 
 
 def batch_export_obj(self, context):
-    (result, basedir) = check_export(self, context, 'objs')
+    (result, basedir) = check_export(self, context, context.scene.export_dir)
     if result is False:
         return
 
