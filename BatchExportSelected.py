@@ -6,7 +6,7 @@ bl_info = {
     'name': 'Batch Export',
     'author': 'Steven Raybell',
     'description': 'Provides batch export operatoions for OBJ and STL.',
-    'version': (0, 5, 0),
+    'version': (0, 5, 1),
     'blender': (3, 4, 0),
     'location': 'File > Export',
     'category': 'Import-Export'
@@ -53,8 +53,8 @@ def batch_export_stl(self, context):
         use_selection=True,
         use_mesh_modifiers=context.scene.apply_modifiers_chk,
         batch_mode='OBJECT',
-        axis_forward='-Z',
-        axis_up='X'
+        axis_forward='Y',
+        axis_up='Z'
     )
 
     bpy.ops.object.select_all(action='DESELECT')
