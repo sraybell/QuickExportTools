@@ -3,10 +3,10 @@ import os
 
 
 bl_info = {
-    'name': 'Batch Export',
+    'name': 'Batch Export', # change name to match new feature(s)
     'author': 'Steven Raybell',
-    'description': 'Provides batch export operatoions for OBJ and STL.',
-    'version': (0, 5, 1),
+    'description': 'Provides batched and merged export operations for OBJ and STL.',
+    'version': (0, 5, 2),
     'blender': (3, 4, 0),
     'location': 'File > Export',
     'category': 'Import-Export'
@@ -14,8 +14,14 @@ bl_info = {
 
 
 PROPS = [
+    ('as_batch_chk', bpy.props.BoolProperty(
+        name='As Batch', default=True,
+        description='Batch or merge all objects for export.')),
+    ('as_collection', bpy.props.BoolProperty(
+        name='As Collection', default=False,
+        description='Use the selected object''s collection for export')),
     ('export_normals_chk', bpy.props.BoolProperty(
-        name='Include Normals (OBJ)', default=True,
+        name='Include Normals (OBJ)', default=False,
         description='Write normal vector information for the mesh')),
     ('export_uvs_chk', bpy.props.BoolProperty(
         name='Include UVs (OBJ)', default=False,
@@ -47,19 +53,63 @@ def batch_export_stl(self, context):
     if result is False:
         return
 
-    bpy.ops.export_mesh.stl(
-        filepath=basedir,
-        check_existing=False,
-        use_selection=True,
-        use_mesh_modifiers=context.scene.apply_modifiers_chk,
-        batch_mode='OBJECT',
-        axis_forward='Y',
-        axis_up='Z'
-    )
+    if context.scene.as_batch_chk:
+        bpy.ops.export_mesh.stl(
+            filepath=basedir,
+            check_existing=False,
+            use_selection=True,
+            use_mesh_modifiers=context.scene.apply_modifiers_chk,
+            batch_mode='OBJECT',
+            axis_forward='Y',
+            axis_up='Z'
+        )
 
-    bpy.ops.object.select_all(action='DESELECT')
+        bpy.ops.object.select_all(action='DESELECT')
 
-    self.report({'INFO'}, f'The operation has completed! Check in: {basedir}')
+        self.report({'INFO'}, f'The operation has completed! Check in: {basedir}')
+        
+        return
+
+    else:
+        if context.scene.as_collection:
+            collection_list = []
+
+            objs = context.selected_objects
+            bpy.ops.object.select_all(action='DESELECT')
+
+            meshes = filter(lambda var: var.type == 'MESH', objs)
+            for mesh in meshes:
+                collections = mesh.users_collection
+                for collection in collections:
+                    if collection.name in collection_list:
+                        continue
+                    else:
+                        collection_list.append(collection.name)
+                        for obj in collection.all_objects:
+                            obj.select_set(True)
+
+            fname = collection_list[0]
+
+        else:
+
+            fname = bpy.path.display_name_from_filepath(bpy.context.blend_data.filepath)
+
+        bpy.ops.export_mesh.stl(
+            filepath=f'{basedir}\\{fname}.stl',
+            check_existing=False,
+            use_selection=True,
+            use_mesh_modifiers=context.scene.apply_modifiers_chk,
+            batch_mode='OFF',
+            axis_forward='Y',
+            axis_up='Z'
+        )
+
+        bpy.ops.object.select_all(action='DESELECT')
+
+        self.report({'INFO'}, f'The operation has completed! Check in: {basedir}')
+        
+        return
+    
 
 
 def batch_export_obj(self, context):
@@ -115,7 +165,7 @@ class ExportSelectedAsStlOperator(bpy.types.Operator):
 
 
 class BatchExportPanel(bpy.types.Panel):
-    bl_label = 'Batch Export'
+    bl_label = 'Batch Export Tools'
     bl_idname = 'BATCHEXPORT_PT_exports_1'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
