@@ -1,4 +1,4 @@
-# Quick Export Tools
+# Quick Export Tools for Blender
 Provides quick export tools to speed up project iteration.
 
 ## Installation
