@@ -7,7 +7,7 @@ bl_info = {
     'author': 'Steven Raybell (popcornbag)',
     'description': 'Provides quick batched and merged export operations for OBJ and STL.',
     'version': (0, 5, 3),
-    'blender': (3, 4, 0),
+    'blender': (4, 0, 0),
     'location': 'File > Export',
     'category': 'Import-Export'
 }
