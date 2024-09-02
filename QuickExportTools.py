@@ -9,7 +9,7 @@ bl_info = {
     'version': (0, 5, 6),
     'blender': (4, 2, 1),
     'location': 'File > Export',
-    'category': 'Import-Export'
+    'category': 'Import-Export' 
 }
 
 PROPS = [
