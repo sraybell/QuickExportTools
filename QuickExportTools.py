@@ -6,8 +6,8 @@ bl_info = {
     'name': 'Quick Export Tools',  # change name to match new feature(s)
     'author': 'Steven Raybell (popcornbag)',
     'description': 'Provides quick batched and merged export operations for OBJ and STL.',
-    'version': (0, 5, 3),
-    'blender': (4, 0, 0),
+    'version': (0, 5, 4),
+    'blender': (4, 2, 1),
     'location': 'File > Export',
     'category': 'Import-Export'
 }
@@ -46,14 +46,14 @@ def batch_export_stl(self, context):
     if result is False:
         return
 
-    bpy.ops.export_mesh.stl(
+    bpy.ops.wm.stl_export(
         filepath=basedir,
         check_existing=False,
-        use_selection=True,
-        use_mesh_modifiers=context.scene.apply_modifiers_chk,
-        batch_mode='OBJECT',
-        axis_forward='Y',
-        axis_up='Z'
+        export_selected_objects =True,
+        apply_modifiers =context.scene.apply_modifiers_chk,
+        use_batch=True,
+        forward_axis='Y',
+        up_axis='Z'
     )
 
     bpy.ops.object.select_all(action='DESELECT')
@@ -71,14 +71,14 @@ def merged_export_stl(self, context):
     fname = bpy.path.display_name_from_filepath(
         bpy.context.blend_data.filepath)
 
-    bpy.ops.export_mesh.stl(
+    bpy.ops.wm.stl_export(
         filepath=f'{basedir}\\{fname}.stl',
         check_existing=False,
-        use_selection=True,
-        use_mesh_modifiers=context.scene.apply_modifiers_chk,
-        batch_mode='OFF',
-        axis_forward='Y',
-        axis_up='Z'
+        export_selected_objects =True,
+        apply_modifiers=context.scene.apply_modifiers_chk,
+        use_batch=False,
+        forward_axis='Y',
+        up_axis='Z'
     )
 
     bpy.ops.object.select_all(action='DESELECT')
@@ -110,15 +110,15 @@ def collection_export_stl(self, context):
                     obj.select_set(True)
 
     fname = collection_list[0]
-
-    bpy.ops.export_mesh.stl(
+    
+    bpy.ops.wm.stl_export(
         filepath=f'{basedir}\\{fname}.stl',
         check_existing=False,
-        use_selection=True,
-        use_mesh_modifiers=context.scene.apply_modifiers_chk,
-        batch_mode='OFF',
-        axis_forward='Y',
-        axis_up='Z'
+        export_selected_objects=True,
+        apply_modifiers=context.scene.apply_modifiers_chk,
+        use_batch=False,
+        forward_axis='Y',
+        up_axis='Z'
     )
 
     bpy.ops.object.select_all(action='DESELECT')
