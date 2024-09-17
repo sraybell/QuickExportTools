@@ -6,10 +6,10 @@ bl_info = {
     'name': 'Quick Export Tools',  # change name to match new feature(s)
     'author': 'Steven Raybell (popcornbag)',
     'description': 'Provides quick batched and merged export operations for OBJ and STL.',
-    'version': (0, 5, 6),
+    'version': (0, 5, 8),
     'blender': (4, 2, 1),
     'location': 'File > Export',
-    'category': 'Import-Export' 
+    'category': 'Import-Export'
 }
 
 PROPS = [
@@ -49,8 +49,8 @@ def batch_export_stl(self, context):
     bpy.ops.wm.stl_export(
         filepath=basedir,
         check_existing=False,
-        export_selected_objects =True,
-        apply_modifiers =context.scene.apply_modifiers_chk,
+        export_selected_objects=True,
+        apply_modifiers=context.scene.apply_modifiers_chk,
         use_batch=True,
         forward_axis='Y',
         up_axis='Z'
@@ -74,7 +74,7 @@ def merged_export_stl(self, context):
     bpy.ops.wm.stl_export(
         filepath=f'{basedir}\\{fname}.stl',
         check_existing=False,
-        export_selected_objects =True,
+        export_selected_objects=True,
         apply_modifiers=context.scene.apply_modifiers_chk,
         use_batch=False,
         forward_axis='Y',
@@ -110,7 +110,7 @@ def collection_export_stl(self, context):
                     obj.select_set(True)
 
     fname = collection_list[0]
-    
+
     bpy.ops.wm.stl_export(
         filepath=f'{basedir}\\{fname}.stl',
         check_existing=False,
@@ -148,6 +148,7 @@ def batch_export_obj(self, context):
             export_materials=context.scene.export_materials_chk,
             export_uv=context.scene.export_uvs_chk,
             export_normals=context.scene.export_normals_chk,
+            export_vertex_groups=True,
             apply_modifiers=context.scene.apply_modifiers_chk,
             export_eval_mode='DAG_EVAL_VIEWPORT',
             forward_axis='NEGATIVE_Z'
@@ -179,6 +180,7 @@ class ExportSelectedAsStlOperator(bpy.types.Operator):
         batch_export_stl(self, context)
         return {'FINISHED'}
 
+
 class ExportObjectsCollectionAsStlOperator(bpy.types.Operator):
     '''Exports the object's collection as a singular STL file using the collection's name'''
     bl_idname = 'batchexport.exportcolstls'
@@ -188,6 +190,7 @@ class ExportObjectsCollectionAsStlOperator(bpy.types.Operator):
     def execute(self, context):
         collection_export_stl(self, context)
         return {'FINISHED'}
+
 
 class ExportMergedAsStlOperator(bpy.types.Operator):
     '''Exports all objects as a singular STL file'''
