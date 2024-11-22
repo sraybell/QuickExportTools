@@ -6,7 +6,7 @@ bl_info = {
     'name': 'Quick Export Tools',  # change name to match new feature(s)
     'author': 'Steven Raybell (popcornbag)',
     'description': 'Provides quick batched and merged export operations for OBJ and STL.',
-    'version': (0, 5, 8),
+    'version': (0, 5, 10),
     'blender': (4, 2, 1),
     'location': 'File > Export',
     'category': 'Import-Export'
@@ -225,25 +225,25 @@ class BatchExportPanel(bpy.types.Panel):
         row = col.row()
         row.operator(
             ExportSelectedAsStlOperator.bl_idname,
-            icon_value=674,
+            icon='FILE_3D',
             text='Selected as Batch STL')
 
         row = col.row()
         row.operator(
             ExportObjectsCollectionAsStlOperator.bl_idname,
-            icon_value=674,
+            icon='FILE_3D',
             text='Object\'s Collection as STL')
 
         row = col.row()
         row.operator(
             ExportMergedAsStlOperator.bl_idname,
-            icon_value=674,
+            icon='FILE_3D',
             text='Selected as Single STL')
 
         row = col.row()
         row.operator(
             ExportSelectedAsObjOperator.bl_idname,
-            icon_value=674,
+            icon='FILE_3D',
             text='Selected as Batch OBJ')
 
 
